@@ -29,6 +29,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
     <script type="text/javascript" language="javascript" src="bus.js"></script>
+
     <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 
 </head>
@@ -37,21 +38,23 @@
     <div id="map"></div>
 
     <script>
+
+        // Init map
         var map = L.map( 'map', {
             center: [46.2276, 2.2137],
             minZoom: 2,
             zoom: 6
         });
 
-        L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        // Set tiles
+        L.tileLayer( 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             subdomains: ['a','b','c']
         }).addTo( map );
 
+        // Put markers on map
         var markers = [];
-
-        for (i = 0; i < bus.length; i++)
-        {
+        for (i = 0; i < bus.length; i++) {
             var marker = L.marker([bus[i].Latitude, bus[i].Longitude], {
                 url: bus[i].URL
             }).addTo(map).on('click', onMarkerClick);
@@ -59,10 +62,41 @@
             markers.push(marker);
         }
 
-        function onMarkerClick()
-        {
+        // Catch markers click
+        function onMarkerClick() {
             window.open(this.options.url);
         }
+
+        // Get zipcode parameter
+        var zipcode = null;
+        var tmp = [];
+        location.search
+                .substr(1)
+                .split("&")
+                .forEach(function (item) {
+                    tmp = item.split("=");
+                    if (tmp[0] === "zipcode") zipcode = decodeURIComponent(tmp[1]);
+                });
+
+        if (zipcode != null) {
+            // Get geo location of zipcode
+            var xhReq = new XMLHttpRequest();
+            xhReq.open("GET", "https://nominatim.openstreetmap.org/search?format=json&limit=1&country=France&polygon=1&q=" + zipcode, false);
+            xhReq.send(null);
+            var districtObject = JSON.parse(xhReq.responseText);
+
+            map.setView(new L.LatLng(districtObject[0].lat, districtObject[0].lon), 9);
+
+            var polygonPoints = [];
+            for (i = 0; i < districtObject[0].polygonpoints.length; i++) {
+                var p = new L.LatLng(districtObject[0].polygonpoints[i][1], districtObject[0].polygonpoints[i][0]);
+                polygonPoints.push(p);
+            }
+
+            var polygon = new L.Polygon(polygonPoints);
+            map.addLayer(polygon);
+        }
+
     </script>
 
 </body>
