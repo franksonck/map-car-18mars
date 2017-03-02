@@ -25,6 +25,7 @@ var bus = [{"Ville":"Abbeville","URL":"https://materiel.jlm2017.fr/produit/abbev
   {"Ville":"Béziers","URL":"https://materiel.jlm2017.fr/produit/beziers-car-insoumis/","Latitude":43.342631,"Longitude":3.2157},
   {"Ville":"Blois","URL":"https://materiel.jlm2017.fr/produit/blois-car-insoumis/","Latitude":47.592676,"Longitude":1.32595},
   {"Ville":"Bordeaux","URL":"https://materiel.jlm2017.fr/produit/bordeaux-car-insoumis/","Latitude":44.837663,"Longitude":-0.579717},
+  {"Ville":"Boulogne sur mer","URL":"https://materiel.jlm2017.fr/produit/boulogne-mer-insoumis/","Latitude":50.716671,"Longitude":1.61667},
   {"Ville":"Bourg en Bresse","URL":"https://materiel.jlm2017.fr/produit/bourg-bresse-insoumis/","Latitude":46.204452,"Longitude":5.227117},
   {"Ville":"Bourges","URL":"https://materiel.jlm2017.fr/produit/bourges-car-insoumis/","Latitude":47.08277,"Longitude":2.395012},
   {"Ville":"Bressuire","URL":"https://materiel.jlm2017.fr/produit/bressuire-car-insoumis/","Latitude":46.839702,"Longitude":-0.488776},
