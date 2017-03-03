@@ -81,20 +81,12 @@
         if (zipcode != null) {
             // Get geo location of zipcode
             var xhReq = new XMLHttpRequest();
-            xhReq.open("GET", "https://nominatim.openstreetmap.org/search?format=json&limit=1&country=France&polygon=1&q=" + zipcode, false);
+            xhReq.open('GET', '//api-adresse.data.gouv.fr/search/?q='+ zipcode + '&postcode=' + zipcode, false);
             xhReq.send(null);
-            var districtObject = JSON.parse(xhReq.responseText);
+            var data = JSON.parse(xhReq.responseText);
 
-            map.setView(new L.LatLng(districtObject[0].lat, districtObject[0].lon), 9);
-
-            var polygonPoints = [];
-            for (i = 0; i < districtObject[0].polygonpoints.length; i++) {
-                var p = new L.LatLng(districtObject[0].polygonpoints[i][1], districtObject[0].polygonpoints[i][0]);
-                polygonPoints.push(p);
-            }
-
-            var polygon = new L.Polygon(polygonPoints);
-            map.addLayer(polygon);
+            var coordinates = data.features[0].geometry.coordinates;
+            map.setView(new L.LatLng(coordinates[1], coordinates[0]), 10);
         }
 
     </script>
